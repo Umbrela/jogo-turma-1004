@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script>
+function init() 
+{
+	stage = new createjs.Stage("demoCanvas");
+	container = new createjs.Container();
+	
+	
+	
+	Preload();
+}
+		
+function Preload()
+{
+	//Usando a classe preloadjs
+	queue = new createjs.LoadQueue(false);
+	queue.installPlugin(createjs.Sound);
+	queue.loadManifest
+	([
+		{id:"backgroundParallax0", src:"images/area01_bkg0.png"},
+		{id:"backgroundParallax1", src:"images/area01_bkg1.png"},
+		{id:"level1Spritesheet", src:"images/area01_level_tiles.png"},
+		{id:"player", src:"images/gripe_run_right.png"},
+		{id:"enemy", src:"images/wheelie_right.png"},
+	]);
+								
+	queue.addEventListener("complete", CreateElements);					
+}
+		
+function CreateElements(event)
+{
+	BuildMap(data);
+	
+	createjs.Ticker.setFPS(60); //Intervalo = 1000ms / 30fps
+	createjs.Ticker.addEventListener("tick", _tick);
+}
+		
+function _tick(event)
+{
+	if( loading.ready() )
+	{
+		event.delta = event.delta / 1000;
+		
+		UpdateEnemy(event);
+		UpdatePlayer(event);
+		checkGround(event);
+		checkWall(event);
+		stage.update(event);
+    }			
+}		
+    
+</script>
+	
+	<script src="lib/createjs-2013.05.14.min.js"></script>
+	<script src="js/variaveis.js"></script>
+	<script src="js/area01-json.js"></script>
+	<script src="js/char-builder.js"></script>
+	<script src="js/map-builder.js"></script>
+	<script src="js/teclado.js"></script>
+	<script src="js/char-brain.js"></script>
+	<script src="js/enemys-brain.js"></script>
+	<script src="js/enemys-builder.js"></script>
+	<script src="js/colisao.js"></script>
+	<script src="js/container.js"></script>
+	<script>console.log(player.lendWalkRight);</script>
+	
+</head>
+<body onLoad="init();">
+    <canvas id="demoCanvas" width="640" height="600">
+        alternate content
+    </canvas>
+</body>
+</html>
